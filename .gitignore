@@ -1,0 +1,14 @@
+.DS_Store
+*.tfstate*
+.terraform
+kubeconfig
+**/charts
+*.pem
+*.pfx
+*.key
+*.crt
+**/certs
+secret/*
+*.plan
+azwi.tf
+terraform-creds.auto.tfvars

@@ -1,0 +1,1 @@
+Used to bootstrap secrets required for apps deployed by ArgoCD.
