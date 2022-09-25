@@ -24,10 +24,3 @@ resource "azurerm_dns_ns_record" "aks_dns" {
   records             = azurerm_dns_zone.aks_dns.name_servers
   tags                = local.tags_all
 }
-
-# grant rights to k8s node msi for dns
-resource "azurerm_role_assignment" "dns" {
-  scope                = azurerm_resource_group.aks_dns.id
-  role_definition_name = "DNS Zone Contributor"
-  principal_id         = module.aks_cluster.kubelet_identity[0].object_id
-}

@@ -1,7 +1,7 @@
 resource "azurerm_automation_runbook" "aks" {
   name                    = "shutdown-aks"
-  location                = azurerm_resource_group.terratest.location
-  resource_group_name     = azurerm_resource_group.terratest.name
+  location                = azurerm_resource_group.aks.location
+  resource_group_name     = azurerm_resource_group.aks.name
   automation_account_name = azurerm_automation_account.aks.name
   log_verbose             = "true"
   log_progress            = "true"
@@ -10,7 +10,7 @@ resource "azurerm_automation_runbook" "aks" {
   content = templatefile(
     "${path.module}/automation_script.tftpl", {
       subscription_id = data.azurerm_client_config.current.subscription_id,
-      rg_name         = azurerm_resource_group.terratest.name,
+      rg_name         = azurerm_resource_group.aks.name,
       cluster_name    = module.aks_cluster.cluster_name,
     }
   )
@@ -19,15 +19,15 @@ resource "azurerm_automation_runbook" "aks" {
 
 resource "azurerm_automation_account" "aks" {
   name                = "aks-playground"
-  location            = azurerm_resource_group.terratest.location
-  resource_group_name = azurerm_resource_group.terratest.name
+  location            = azurerm_resource_group.aks.location
+  resource_group_name = azurerm_resource_group.aks.name
   sku_name            = "Basic"
   tags                = local.tags_all
 }
 
 resource "azurerm_automation_schedule" "aks_shutdown" {
   name                    = "EveryDayMignight"
-  resource_group_name     = azurerm_resource_group.terratest.name
+  resource_group_name     = azurerm_resource_group.aks.name
   automation_account_name = azurerm_automation_account.aks.name
   frequency               = "Hour"
   interval                = 24

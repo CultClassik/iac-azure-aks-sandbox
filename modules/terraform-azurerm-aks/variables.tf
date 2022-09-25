@@ -73,8 +73,13 @@ variable "kubernetes_version_number" {
   type        = string
 }
 
-variable "subnet_id" {
-  description = "ID for the subnet the cluster will be placed in"
+variable "subnet_id_system_np" {
+  description = "ID for the subnet the system nodepool will use"
+  type        = string
+}
+
+variable "subnet_id_worker_np" {
+  description = "ID for the subnet the worker nodepool will use"
   type        = string
 }
 
@@ -143,26 +148,10 @@ variable "max_pods" {
   default     = 30
 }
 
-# variable "nsg" {
-#   description = "The NSG object to manage rules for. Rules for this NSG should not be managed outside of this module. To add custom rules to the NSG use the nsg_rules paramter when calling this module."
-#   # type        = object(any)
-# }
-
-# variable "spn_id" {}
-# variable "spn_secret" {}
-variable "private_dns_zone_id" {
-  default = null
-}
 variable "msi_ids" {
   description = "List of optional MSI IDs to assign to the cluster"
   type        = list(string)
   default     = []
-}
-
-variable "create_msi" {
-  description = "Create a unique MSI for this cluster"
-  type        = bool
-  default     = true
 }
 
 variable "orchestrator_version" {
@@ -177,8 +166,10 @@ variable "local_account_disabled" {
   description = "Disable local admin - this will mean the admin kubeconf will not be usable"
 }
 
-variable "kubelet_identity_uaiid" {
-  type        = string
-  default     = null
-  description = "User assigned identity ID for use by kubelets"
+variable "kubelet_identity" {
+  description = "User assigned identity for use by kubelets"
+}
+
+variable "cluster_identity" {
+  description = "User assigned identity for use by AKS"
 }

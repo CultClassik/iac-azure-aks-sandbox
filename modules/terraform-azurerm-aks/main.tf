@@ -1,10 +1,3 @@
-resource "azurerm_user_assigned_identity" "aks" {
-  count               = var.create_msi ? 1 : 0
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  name                = local.identity_name
-}
-
 resource "azurerm_kubernetes_cluster" "aks" {
   azure_policy_enabled              = false
   http_application_routing_enabled  = false
@@ -29,27 +22,21 @@ resource "azurerm_kubernetes_cluster" "aks" {
     node_count           = var.node_count_system
     vm_size              = var.vm_size_system
     os_disk_size_gb      = var.os_disk_size_gb
-    vnet_subnet_id       = var.subnet_id
+    vnet_subnet_id       = var.subnet_id_system_np
     type                 = var.node_pool_type
     max_pods             = var.max_pods
     orchestrator_version = local.orchestrator_version
   }
 
   identity {
-    type = "UserAssigned"
-    identity_ids = var.create_msi == false ? var.msi_ids : concat(
-      var.msi_ids,
-      [azurerm_user_assigned_identity.aks[0].id],
-    )
+    type         = "UserAssigned"
+    identity_ids = [var.cluster_identity.id]
   }
 
-  ### This will be a problem if var.create_msi == false and var.kubelet_identity_uaiid is null
-  # ...but ok for playtime
   kubelet_identity {
-    user_assigned_identity_id = try(
-      var.kubelet_identity_uaiid,
-      azurerm_user_assigned_identity.aks[0].id
-    )
+    client_id                 = var.kubelet_identity.client_id
+    object_id                 = var.kubelet_identity.principal_id
+    user_assigned_identity_id = var.kubelet_identity.id
   }
 
   # make this optional based on new - var.local_account_disabled ?

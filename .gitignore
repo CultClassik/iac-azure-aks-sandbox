@@ -10,5 +10,6 @@ kubeconfig
 **/certs
 secret/*
 *.plan
-azwi.tf
 terraform-creds.auto.tfvars
+azwi.tf
+kubernetes.tf

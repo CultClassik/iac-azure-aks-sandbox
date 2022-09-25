@@ -1,9 +1,13 @@
+# "Standard_B2s" = 2/4
+# "Standard_B2ms" = 2/8
+# "Standard_A2m_v2" = 2/16
+
 unique_id         = "001"
-node_count_system = 2
-vm_size_system    = "Standard_A2m_v2" #"Standard_B2s"
-max_pods          = 100
-# node_count_worker = 2
-# vm_size_worker    = "Standard_B2s" #"Standard_A2m_v2"
+node_count_system = 4
+vm_size_system    = "Standard_B2ms"
+max_pods          = 36
+# node_count_worker = 3
+# vm_size_worker    = "Standard_B2ms"
 
 tags = {
   environment = "test"

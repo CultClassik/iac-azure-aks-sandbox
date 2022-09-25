@@ -64,7 +64,3 @@ output "cluster_name" {
 output "cluster_fqdn" {
   value = azurerm_kubernetes_cluster.aks.fqdn
 }
-
-output "kubelet_identity" {
-  value = azurerm_kubernetes_cluster.aks.kubelet_identity
-}

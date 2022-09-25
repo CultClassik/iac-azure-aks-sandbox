@@ -29,12 +29,12 @@ resource "local_file" "external_dns_config" {
 
 resource "local_file" "env_vars" {
   content         = <<EOT
-RG_NAME="${azurerm_resource_group.terratest.name}"
+RG_NAME="${azurerm_resource_group.aks.name}"
 DNS_RG_NAME="${azurerm_resource_group.aks_dns.name}"
 DNS_ZONE_NAME="${azurerm_dns_zone.aks_dns.name}"
 CLUSTER_FQDN="${module.aks_cluster.cluster_fqdn}"
 CLUSTER_NAME="${module.aks_cluster.cluster_name}"
-MSI_ID="${module.aks_cluster.kubelet_identity[0].client_id}"
+MSI_ID="${azurerm_user_assigned_identity.aks_nodepool.client_id}"
 EOT
   filename        = "./secret/env"
   file_permission = "0600"

@@ -5,8 +5,12 @@ resource "azurerm_kubernetes_cluster_node_pool" "worker" {
   vm_size               = var.vm_size_worker
   node_count            = var.node_count_worker
   os_disk_size_gb       = var.os_disk_size_gb
-  vnet_subnet_id        = var.subnet_id
+  vnet_subnet_id        = var.subnet_id_worker_np
   max_pods              = var.max_pods
   orchestrator_version  = local.orchestrator_version
   tags                  = local.all_tags
+
+  kubelet_identity {
+    user_assigned_identity_id = [azurerm_user_assigned_identity.aks["msi-np-worker"]]
+  }
 }

@@ -20,8 +20,7 @@ locals {
     tenantId        = var.arm_tenant_id,
     subscriptionId  = var.arm_subscription_id,
     resourceGroup   = azurerm_resource_group.aks_dns.name,
-    aadClientId     = var.arm_client_id,
-    aadClientSecret = var.arm_client_secret
+    useManagedIdentityExtension= true
   }
 
 }
