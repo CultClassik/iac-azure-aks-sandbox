@@ -11,6 +11,8 @@
 
 [State is stored in Terraform Cloud.](backend.tf)
 
+[ArgoCD configuration is here.](https://github.com/CultClassik/gitops-apps)
+
 ## Provisioning with Terraform
 * Important files created in secret folder, check it.
 * 
